@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleApiController;
 use App\Http\Controllers\Api\AuthenticationApiController;
 use App\Http\Controllers\Api\UserApiController;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ Route::prefix('v1')->group(static function () {
         Route::group(['prefix' => 'user'], static function () {
             Route::get('/preference', [UserApiController::class,'getUserSettings']);
             Route::patch('/preference', [UserApiController::class,'updateUserPreference']);
+        });
+
+        //::: Article routes
+        Route::group(['prefix' => 'article'], static function () {
+            Route::get('', [ArticleApiController::class,'getArticles']);
         });
 
     });
