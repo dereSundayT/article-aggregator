@@ -51,7 +51,7 @@ class ArticleService
 
         } catch (Throwable $th) {
             storeErrorLog($th, 'ArticleApiController Exception:');
-            return [];
+            return null;
         }
     }
 
