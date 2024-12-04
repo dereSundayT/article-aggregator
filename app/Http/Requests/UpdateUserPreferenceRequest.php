@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateUserPreferenceRequest extends FormRequest
 {
@@ -23,20 +25,20 @@ class UpdateUserPreferenceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "category_ids" => "required|array",
+            "category_ids.*" => "required|integer|exists:categories,id",
 
-            "categories" => "required|array",
-            "categories.*" => "required|integer",
+            "author_ids" => "required|array",
+            "author_ids.*" => "required|integer|exists:authors,id",
 
-            "authors" => "required|array",
-            "authors.*" => "required|integer",
-
-            "sources" => "required|array",
-            "sources.*" => "required|integer",
-
-
-
-
-
+            "source_ids" => "required|array",
+            "source_ids.*" => "required|integer|exists:sources,id",
         ];
+    }
+
+    public function failedValidation(Validator $validator): void
+    {
+        $errors = $validator->errors();
+        throw new HttpResponseException(errorResponse("Validation failed", $errors, 422));
     }
 }

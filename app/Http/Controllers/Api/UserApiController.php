@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserPreferenceRequest;
 use App\Http\Service\UserService;
-use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+
+use Throwable;
 
 class UserApiController extends Controller
 {
@@ -18,30 +18,40 @@ class UserApiController extends Controller
         $this->user = auth()->user();
     }
 
-    //
+    /**
+     * @description Get user settings preferences
+     * @return JsonResponse
+     */
     public function getUserSettings(): JsonResponse
     {
         try{
             $userPreferences = $this->userService->getUserPreferenceService($this->user);
             return successResponse('User settings retrieved successfully', $userPreferences);
         }
-        catch (\Throwable $throwable){
+        catch (Throwable $throwable){
             storeErrorLog($throwable, 'User Preference Store Failed: ');
             return errorResponse('Something went wrong', null, 500);
         }
-
     }
 
 
-    /**
-     *
+ /**
+     * @description Update user settings preferences
+     * @param UpdateUserPreferenceRequest $request
+     * @return JsonResponse
      */
     public function updateUserPreference(UpdateUserPreferenceRequest $request): JsonResponse
     {
        try{
            $user = $this->user;
+           $validated = $request->validated();
            //Update user preferences
-           $this->userService->updateUserPreferenceService($user, $request->categories, $request->authors,$request->sources);
+           $this->userService->updateUserPreferenceService(
+                   $user,
+                   $validated["category_ids"],
+                   $validated["author_ids"],
+                   $validated["source_ids"]
+               );
            //Get updated user preferences
            $userPreferences = $this->userService->getUserPreferenceService($user);
            //Return response

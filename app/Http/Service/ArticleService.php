@@ -21,7 +21,7 @@ class ArticleService
      * @param $category_ids
      * @param $source_ids
      * @param $author_ids
-     * @return LengthAwarePaginator|null
+     * @return LengthAwarePaginator|array
      */
     public function getArticleService($keyword, $start_date, $end_date, $category_ids, $source_ids, $author_ids): ?LengthAwarePaginator
     {
@@ -51,15 +51,8 @@ class ArticleService
 
         } catch (Throwable $th) {
             storeErrorLog($th, 'ArticleApiController Exception:');
-            return null;
+            return [];
         }
-    }
-
-
-    public function getArticlesByUserPreference($user, $sources, $categories, $authors): void
-    {
-
-
     }
 
 }
