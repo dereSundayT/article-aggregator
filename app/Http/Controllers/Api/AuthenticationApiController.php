@@ -14,7 +14,7 @@ use Throwable;
 
 class AuthenticationApiController extends Controller
 {
-    //
+
     public function __construct(protected AuthenticationService $authenticationService)
     {
     }
@@ -28,7 +28,9 @@ class AuthenticationApiController extends Controller
     {
         try {
             $user = $this->authenticationService->userRegistrationService($request->name, $request->email, $request->password);
-
+            Log::error("Error",[
+                'user' => $user
+            ]);
             if ($user) {
                 return successResponse('User created successfully', null, 201);
             }
@@ -42,20 +44,19 @@ class AuthenticationApiController extends Controller
     }
 
 
-
-
     /**
      *
      * @description: This function is used to log in a user
      * @param LoginRequest $request
      * @return JsonResponse
      */
-    public function login(LoginRequest $request): JsonResponse{
+    public function login(LoginRequest $request): JsonResponse
+    {
         try {
-           $userLoginDetails =  $this->authenticationService->userLoginService($request->email, $request->password);
+            $userLoginDetails = $this->authenticationService->userLoginService($request->email, $request->password);
 
             if ($userLoginDetails) {
-                return successResponse('Login successful',$userLoginDetails );
+                return successResponse('Login successful', $userLoginDetails);
             }
 
             return errorResponse('Login failed', null);
@@ -65,7 +66,6 @@ class AuthenticationApiController extends Controller
             return errorResponse('Something went wrong', null, 500);
         }
     }
-
 
 
 }

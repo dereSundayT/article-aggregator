@@ -2,10 +2,16 @@
 
 namespace App\Http\Service;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class AuthenticationService
 {
+    public function __construct(
+        protected UserService $userService)
+    {
+    }
+
     /**
      * @description: This function is used to register a new user
      * @param string $name
@@ -16,13 +22,11 @@ class AuthenticationService
     public function userRegistrationService(string $name,string $email,string $password): ?User
     {
         try {
-            return User::create([
-                'name' => $name,
-                'email' => $email,
-                'password' => bcrypt($password)
-            ]);
+            return DB::transaction(function () use ($name, $email, $password) {
+                  return $this->userService->createUserService($name, $email, $password);
+              });
         } catch (Throwable $th) {
-            storeErrorLog($th, 'User Registration Failed: ');
+            storeErrorLog($th, 'Authentication Service: User Registration Failed: ');
         }
         return null;
     }
@@ -56,6 +60,11 @@ class AuthenticationService
     }
 
 
+    /**
+     * @description: This function is used to generate a token for a user
+     * @param $user
+     * @return string
+     */
     public function generateTokenService($user): string
     {
         return $user->createToken('authToken')->plainTextToken;

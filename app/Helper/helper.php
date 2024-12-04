@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Log;
 
 function storeErrorLog(Throwable $th, $title): void
 {
-    Log::error($title, [
+    Log::warning($title, [
         'message' => $th->getMessage(),
         'stack'=>$th
     ]);
