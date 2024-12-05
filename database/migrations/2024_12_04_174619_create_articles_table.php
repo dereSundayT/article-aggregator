@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('articles', static function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->text('description')->nullable();
             $table->longText('content');
+
             $table->string('keywords')->nullable();
             $table->string('image_url')->nullable();
             $table->date('published_at');
