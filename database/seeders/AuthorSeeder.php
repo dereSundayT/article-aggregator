@@ -14,17 +14,6 @@ class AuthorSeeder extends Seeder
     public function run(): void
     {
         //
-        Author::insert([
-            ['name' => 'John Doe', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Jane Doe', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'John Smith', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Jane Smith', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'John Johnson', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Jane Johnson', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'John Williams', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Jane Williams', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'John Brown', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Jane Brown', 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        Author::factory()->count(5)->create();
     }
 }

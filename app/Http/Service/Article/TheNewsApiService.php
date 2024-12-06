@@ -7,10 +7,9 @@ use App\Interfaces\IArticleSource;
 class TheNewsApiService implements IArticleSource
 {
 
-    public function getArticles(string $source, array $filters): array
+    public function fetchArticles(): array
     {
         // TODO: Implement fetchArticles() method.
-        // https://newsapi.org/
         return [];
     }
 }

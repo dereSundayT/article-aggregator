@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ArticleApiController;
 use App\Http\Controllers\Api\AuthenticationApiController;
+use App\Http\Controllers\Api\GeneralApiController;
 use App\Http\Controllers\Api\UserApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::prefix('v1')->group(static function () {
         Route::group(['prefix' => 'articles'], static function () {
             Route::get('', [ArticleApiController::class, 'getArticles']);
         });
+
+        Route::get('categories', [GeneralApiController::class, 'getArticleCategories']);
+        Route::get('sources', [GeneralApiController::class, 'getArticleSources']);
+        Route::get('authors', [GeneralApiController::class, 'getArticleAuthors']);
 
     });
 

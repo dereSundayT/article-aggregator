@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->string('keywords')->nullable();
             $table->string('image_url')->nullable();
-            $table->date('published_at');
+            $table->timestamp('published_at');
 
             $table->foreignId('source_id')->constrained('sources');
             $table->foreignId('category_id')->constrained('categories');

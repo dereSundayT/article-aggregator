@@ -7,9 +7,9 @@ use App\Interfaces\IArticleSource;
 class TheNewYorkTimeService implements IArticleSource
 {
 
-    public function getArticles(string $keyword, array $filters): array
+    public function fetchArticles(): array
     {
-        // TODO: Implement getArticles() method.
+        // TODO: Implement fetchArticles() method.
         return [];
     }
 }

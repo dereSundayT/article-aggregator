@@ -27,7 +27,7 @@ class ArticleApiController extends Controller
             // unique cache key using the request parameters
             $cacheKey = 'articles_' . md5(json_encode($validated, JSON_THROW_ON_ERROR));
 
-            // Check if the articles are already cached
+            // Check if the articles are already cached, the cache will be stored for 1 hour
             $articles = cache()->remember($cacheKey, 3600, function () use ($validated) {
                 $articles = $this->articleService->getArticleService(
                     $validated['keyword'] ?? null,

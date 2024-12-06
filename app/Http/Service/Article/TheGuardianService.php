@@ -7,10 +7,9 @@ use App\Interfaces\IArticleSource;
 class TheGuardianService implements IArticleSource
 {
 
-    public function getArticles(string $keyword, array $filters): array
+
+    public function fetchArticles(): array
     {
-        //https://open-platform.theguardian.com/documentation/search
-        // TODO: Implement getArticles() method.
         return [];
     }
 }

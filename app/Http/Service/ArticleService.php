@@ -2,6 +2,7 @@
 
 namespace App\Http\Service;
 
+use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Throwable;
@@ -10,6 +11,11 @@ class ArticleService
 {
     public function __construct()
     {
+    }
+
+    public function fetchArticleService()
+    {
+
     }
 
 
@@ -21,12 +27,16 @@ class ArticleService
      * @param $category_ids
      * @param $source_ids
      * @param $author_ids
-     * @return LengthAwarePaginator|array
+// * @return LengthAwarePaginator|array
      */
-    public function getArticleService($keyword, $start_date, $end_date, $category_ids, $source_ids, $author_ids): ?LengthAwarePaginator
+    public function getArticleService($keyword, $start_date, $end_date, $category_ids, $source_ids, $author_ids)
     {
         try {
-            return Article::query()
+            return Article::with([
+                'source:id,name',
+                'category:id,name',
+                'author:id,name,image_url,role',
+            ])
                 ->when(!empty($keyword), function ($query) use ($keyword) {
                     $query->where('title', 'like', "%$keyword%")
                         ->orWhere('keywords', 'like', "%$keyword%")
@@ -47,7 +57,9 @@ class ArticleService
                 ->when(!empty($author_ids), function ($query) use ($author_ids) {
                     $query->whereIn('author_id', $author_ids);
                 })
-                ->paginate(10);
+                ->paginate(5);
+
+//            return ArticleResource::collection($articles);
 
         } catch (Throwable $th) {
             storeErrorLog($th, 'ArticleApiController Exception:');
