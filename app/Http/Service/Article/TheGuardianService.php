@@ -3,13 +3,44 @@
 namespace App\Http\Service\Article;
 
 use App\Interfaces\IArticleSource;
+use Throwable;
 
 class TheGuardianService implements IArticleSource
 {
 
+    public function formatArticleData($articles): array
+    {
+        try{
+            $cleanedData = [];
+            foreach ($articles as $article) {
+                $cleanedData[] = [
+                    'title' => $article['title'],
+                    'category_id' => $article['category_id'],
+                    'source_id' => $article['source_id'],
+                    'author_id' => $article['author_id'],
+                    'content' => $article['content'],
+                    'description' => $article['description'],
+                    'keywords' => $article['keywords'],
+                    'image_url' => $article['image_url'],
+                    'published_at' => $article['published_at'],
+                ];
+            }
+            return $cleanedData;
+        }
+        catch (Throwable $throwable){
+            storeErrorLog($throwable, "TheGuardianService Error: fetchArticles");
+            return [];
+        }
+    }
 
     public function fetchArticles(): array
     {
-        return [];
+        try{
+            return [];
+        }
+        catch (Throwable $throwable){
+            storeErrorLog($throwable, "TheGuardianService Error: fetchArticles");
+            return [];
+        }
     }
 }

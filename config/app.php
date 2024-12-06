@@ -67,6 +67,9 @@ return [
 
     'timezone' => env('APP_TIMEZONE', 'UTC'),
 
+    'news_api_token' => env('NEWS_API_KEY', ''),
+    'news_api_url' => env('NEWS_API_URL', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

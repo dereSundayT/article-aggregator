@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetArticlesRequest;
+use App\Http\Service\Article\ArticleSourceService;
+use App\Http\Service\Article\TheGuardianService;
+use App\Http\Service\Article\TheNewsApiService;
+use App\Http\Service\Article\TheNewYorkTimeService;
 use App\Http\Service\ArticleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -49,6 +53,18 @@ class ArticleApiController extends Controller
             storeErrorLog($th, 'ArticleApiController Exception:');
             return errorResponse("An error occurred while fetching articles", 500);
         }
+    }
+
+
+    public function test()
+    {
+        $r = new ArticleSourceService([
+//            new TheGuardianService(),
+            new TheNewsApiService(),
+//            new TheNewYorkTimeService()
+        ]);
+        $r->fetchAndSaveArticles();
+        return "done";
     }
 
 

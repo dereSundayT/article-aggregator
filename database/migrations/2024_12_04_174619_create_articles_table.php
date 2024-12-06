@@ -14,16 +14,19 @@ return new class extends Migration
         Schema::create('articles', static function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable();
+            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('source_id')->constrained('sources');
+            $table->foreignId('author_id')->constrained('authors');
+            //
             $table->longText('content');
-
+            $table->text('description')->nullable();
             $table->string('keywords')->nullable();
-            $table->string('image_url')->nullable();
+            $table->longText('image_url')->nullable();
             $table->timestamp('published_at');
 
-            $table->foreignId('source_id')->constrained('sources');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('author_id')->constrained('authors');
+
+
+
 
 
             $table->timestamps();

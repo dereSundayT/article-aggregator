@@ -28,6 +28,11 @@ function getRequest(string $url, string $token): array
         )
             ->get($url);
 
+        Log::warning("Req Fetching articles from TheNewsApiService...", [
+            'response' => $response,
+            "token" => $token,
+            "url" => $url,
+        ]);
         if ($response->successful()) {
             return [
                 'status' => "success",
@@ -43,7 +48,7 @@ function getRequest(string $url, string $token): array
     } catch (Throwable $th) {
         storeErrorLog($th, 'HTTP Request Exception:');
         return [
-            'status' => "error",
+            'status' => "error 1",
             'message' => $th->getMessage()
         ];
     }
