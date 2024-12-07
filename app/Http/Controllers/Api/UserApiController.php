@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserPreferenceRequest;
+use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Service\UserService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +30,24 @@ class UserApiController extends Controller
             return successResponse('User details retrieved successfully', $this->user);
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'User Retrieval Failed: ');
+            return errorResponse('Something went wrong', null, 500);
+        }
+    }
+
+
+    /**
+     * @description Update user profile
+     * @param UpdateUserProfileRequest $request
+     * @return JsonResponse
+     */
+    public function updateUserProfile(UpdateUserProfileRequest $request): JsonResponse
+    {
+        try {
+            $validated = $request->validated();
+            $user = $this->userService->updateUserProfileService($this->user, $validated["name"]);
+            return successResponse('User details updated successfully', $user);
+        } catch (Throwable $throwable) {
+            storeErrorLog($throwable, 'UserController: User Update Failed: ');
             return errorResponse('Something went wrong', null, 500);
         }
     }

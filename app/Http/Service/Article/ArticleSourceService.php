@@ -29,13 +29,13 @@ class ArticleSourceService
                     'category_id' => $article['category_id'],
                     'source_id' => $article['source_id'],
                     'author_id' => $article['author_id'],
+                    'published_at' => $article['published_at']
                 ],
                 [
                     'content' => $article['content'],
                     'description' => $article['description'],
                     'keywords' => $article['keywords'],
                     'image_url' => $article['image_url'],
-                    'published_at' => $article['published_at'],
                 ]
             );
         }catch (Throwable $throwable){

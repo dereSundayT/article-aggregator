@@ -3,14 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
-
-
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class UpdateUserProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,18 +26,6 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:2|max:30',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => [
-                'required',
-                'string',
-                'confirmed',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
-            ]
         ];
     }
 

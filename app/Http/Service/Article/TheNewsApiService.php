@@ -20,7 +20,8 @@ class TheNewsApiService implements IArticleSource
             foreach ($articles as $article) {
                 $content = $article['content'];
                 $publishedAt = Carbon::createFromFormat('Y-m-d\TH:i:s\Z',$article['publishedAt'])->toDateTimeString();
-                if($content !== null){
+                $title = $article['title'];
+                if($content !== null && $title!=='[Removed]'){
                     $cleanedData[] = [
                         'title' => $article['title'],
                         'category_id' => 1,

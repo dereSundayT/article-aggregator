@@ -17,9 +17,10 @@ Route::prefix('v1')->group(static function () {
 
     //::: Protected routes
     Route::middleware('auth:sanctum')->group(static function () {
-        //::: User preference routes
+        //::: User profile and preference routes
         Route::group(['prefix' => 'user'], static function () {
             Route::get('', [UserApiController::class, 'getUser']);
+            Route::patch('', [UserApiController::class, 'updateUserProfile']);
             Route::get('/preference', [UserApiController::class, 'getUserSettings']);
             Route::patch('/preference', [UserApiController::class, 'updateUserPreference']);
         });

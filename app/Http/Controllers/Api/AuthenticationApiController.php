@@ -59,7 +59,7 @@ class AuthenticationApiController extends Controller
                 return successResponse('Login successful', $userLoginDetails);
             }
 
-            return errorResponse('Login failed', null);
+            return errorResponse('Invalid credentials', null);
 
         } catch (Throwable $th) {
             storeErrorLog($th, 'User Login Failed');

@@ -27,9 +27,9 @@ class ArticleService
      * @param $category_ids
      * @param $source_ids
      * @param $author_ids
-// * @return LengthAwarePaginator|array
+     * @return LengthAwarePaginator|null
      */
-    public function getArticleService($keyword, $start_date, $end_date, $category_ids, $source_ids, $author_ids)
+    public function getArticleService($keyword, $start_date, $end_date, $category_ids, $source_ids, $author_ids): ?LengthAwarePaginator
     {
         try {
             return Article::with([
@@ -57,9 +57,9 @@ class ArticleService
                 ->when(!empty($author_ids), function ($query) use ($author_ids) {
                     $query->whereIn('author_id', $author_ids);
                 })
-                ->paginate(5);
+                ->orderBy('published_at', 'desc')
+                ->paginate(10);
 
-//            return ArticleResource::collection($articles);
 
         } catch (Throwable $th) {
             storeErrorLog($th, 'ArticleApiController Exception:');
