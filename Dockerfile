@@ -18,6 +18,9 @@ COPY . .
 # Copy .env.example to .env if .env does not exist
 RUN cp .env.example .env
 
+# Install Laravel dependencies (composer install)
+RUN composer install --no-interaction --prefer-dist
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www
 
