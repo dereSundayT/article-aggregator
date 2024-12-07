@@ -21,6 +21,10 @@ RUN composer install --no-interaction --prefer-dist
 # Set permissions
 RUN chown -R www-data:www-data /var/www
 
+
+# Generate the Laravel encryption key
+RUN php artisan key:generate
+
 # Expose port
 EXPOSE 8000
 
