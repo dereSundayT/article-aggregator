@@ -5,6 +5,7 @@ namespace App\Http\Service;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Throwable;
 
 class ArticleService
@@ -13,8 +14,38 @@ class ArticleService
     {
     }
 
-    public function fetchArticleService()
+
+    /**
+     * @param string $article_id
+     * @return ArticleResource|null
+     */
+    public function getArticleDetailService(string $article_id): ArticleResource | null
     {
+        try{
+          $article =  Article::where('id', $article_id)->first();
+          if($article){
+              return  new ArticleResource($article);
+          }
+
+        }
+        catch (Throwable $th) {
+            storeErrorLog($th, 'ArticleService Exception:');
+        }
+        return null;
+    }
+    public function getUserArticlePreferenceService($user): ?LengthAwarePaginator
+    {
+        try{
+
+            $category_ids = $user->categories->pluck('id')->toArray();
+            $source_ids = $user->sources->pluck('id')->toArray();
+            $author_ids = $user->authors->pluck('id')->toArray();
+            return $this->getArticleService(null,null,null,$category_ids,$source_ids,$author_ids);
+        }
+        catch (Throwable $th) {
+            storeErrorLog($th, 'ArticleService Exception:');
+            return null;
+        }
 
     }
 
@@ -38,9 +69,9 @@ class ArticleService
                 'author:id,name,image_url,role',
             ])
                 ->when(!empty($keyword), function ($query) use ($keyword) {
-                    $query->where('title', 'like', "%$keyword%")
-                        ->orWhere('keywords', 'like', "%$keyword%")
-                        ->orWhere('content', 'like', "%$keyword%");
+                    $query->where('title', 'like', "%$keyword%");
+//                        ->orWhere('keywords', 'like', "%$keyword%")
+//                        ->orWhere('content', 'like', "%$keyword%");
                 })
                 ->when(!empty($start_date), function ($query) use ($start_date) {
                     $query->whereDate('published_at', '>=', $start_date);

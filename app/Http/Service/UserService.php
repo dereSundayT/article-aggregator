@@ -87,6 +87,17 @@ class UserService
         return false;
     }
 
+
+    public function logoutService(Authenticatable $user): void
+    {
+        try {
+            $user->token()->revoke();
+//            $user->tokens()->delete();
+        } catch (Throwable $throwable) {
+            storeErrorLog($throwable, 'User Service: User Logout Failed:');
+        }
+    }
+
 }
 
 

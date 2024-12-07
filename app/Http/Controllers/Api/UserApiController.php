@@ -52,6 +52,16 @@ class UserApiController extends Controller
         }
     }
 
+    public function logout(): JsonResponse
+    {
+        try {
+            $this->userService->logoutService($this->user);
+            return successResponse('User logged out successfully');
+        } catch (Throwable $throwable) {
+            storeErrorLog($throwable, 'UserController: User Logout Failed: ');
+            return errorResponse('Something went wrong', null, 500);
+        }
+    }
 
     /**
      * @description Get user settings preferences

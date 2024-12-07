@@ -26,7 +26,7 @@ class GetArticlesRequest extends FormRequest
     {
         return [
             'page' => 'nullable|numeric|min:1',
-            'keyword' => 'nullable|string|max:50',
+            'keywords' => 'nullable|string|max:50',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'category_ids' => 'nullable|array',

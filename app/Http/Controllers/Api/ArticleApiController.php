@@ -35,7 +35,7 @@ class ArticleApiController extends Controller
             // Check if the articles are already cached, the cache will be stored for 1 hour
             $articles = cache()->remember($cacheKey, 3, function () use ($validated) {
                 $articles = $this->articleService->getArticleService(
-                    $validated['keyword'] ?? null,
+                    $validated['keywords'] ?? null,
                     $validated['start_date'] ?? null,
                     $validated['end_date'] ?? null,
                     $validated['category_ids'] ?? [],
@@ -48,6 +48,42 @@ class ArticleApiController extends Controller
 
             return successResponse("Articles fetched successfully", $articles);
         } catch (Throwable $th) {
+            storeErrorLog($th, 'ArticleApiController Exception:');
+            return errorResponse("An error occurred while fetching articles", 500);
+        }
+    }
+
+
+    /**
+     * @description Get article detail
+     * @param $article_id
+     * @return JsonResponse
+     */
+    public function getArticle($article_id): JsonResponse{
+        try{
+            $article = $this->articleService->getArticleDetailService($article_id);
+            return successResponse("Article fetched successfully", $article);
+        }
+        catch (Throwable $th) {
+            storeErrorLog($th, 'ArticleApiController Exception:');
+            return errorResponse("An error occurred while fetching article", 500);
+        }
+    }
+
+
+
+    /**
+     * @description Get user article preference
+     * @return JsonResponse
+     */
+    public function getUserArticlePreference(): JsonResponse
+    {
+        try{
+            $user = auth()->user();
+            $articles = $this->articleService->getUserArticlePreferenceService($user);
+            return successResponse("User article preference fetched successfully", $articles);
+        }
+        catch (Throwable $th) {
             storeErrorLog($th, 'ArticleApiController Exception:');
             return errorResponse("An error occurred while fetching articles", 500);
         }

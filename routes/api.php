@@ -21,6 +21,7 @@ Route::prefix('v1')->group(static function () {
         Route::group(['prefix' => 'user'], static function () {
             Route::get('', [UserApiController::class, 'getUser']);
             Route::patch('', [UserApiController::class, 'updateUserProfile']);
+            Route::post('logout', [UserApiController::class, 'updateUserProfile']);
             Route::get('/preference', [UserApiController::class, 'getUserSettings']);
             Route::patch('/preference', [UserApiController::class, 'updateUserPreference']);
         });
@@ -28,6 +29,8 @@ Route::prefix('v1')->group(static function () {
         //::: Article routes
         Route::group(['prefix' => 'articles'], static function () {
             Route::get('', [ArticleApiController::class, 'getArticles']);
+            Route::get('user-preference', [ArticleApiController::class, 'getUserArticlePreference']);
+            Route::get('{article_id}', [ArticleApiController::class, 'getArticle']);
         });
 
         Route::get('categories', [GeneralApiController::class, 'getArticleCategories']);
