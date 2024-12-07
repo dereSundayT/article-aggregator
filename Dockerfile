@@ -12,22 +12,18 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-# Copy app files (including .env.example)
+# Copy app files
 COPY . .
 
-# Copy .env.example to .env if .env does not exist
-RUN cp .env.example .env
-
-# Install Laravel dependencies (composer install)
+# Install Laravel dependencies
 RUN composer install --no-interaction --prefer-dist
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www
 
-# Generate the Laravel encryption key
-RUN php artisan key:generate
-
 # Expose port
 EXPOSE 8000
 
-CMD ["php-fpm"]
+# Command to run Laravel's development server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+
