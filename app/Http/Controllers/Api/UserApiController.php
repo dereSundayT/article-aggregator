@@ -56,7 +56,7 @@ class UserApiController extends Controller
     {
         try {
             $this->userService->logoutService($this->user);
-            return successResponse('User logged out successfully');
+            return successResponse('User logged out successfully',null);
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'UserController: User Logout Failed: ');
             return errorResponse('Something went wrong', null, 500);

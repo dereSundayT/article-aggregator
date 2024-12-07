@@ -40,6 +40,9 @@ class ArticleService
             $category_ids = $user->categories->pluck('id')->toArray();
             $source_ids = $user->sources->pluck('id')->toArray();
             $author_ids = $user->authors->pluck('id')->toArray();
+            if(empty($category_ids) && empty($source_ids) && empty($author_ids)){
+                return null;
+            }
             return $this->getArticleService(null,null,null,$category_ids,$source_ids,$author_ids);
         }
         catch (Throwable $th) {

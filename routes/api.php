@@ -21,7 +21,8 @@ Route::prefix('v1')->group(static function () {
         Route::group(['prefix' => 'user'], static function () {
             Route::get('', [UserApiController::class, 'getUser']);
             Route::patch('', [UserApiController::class, 'updateUserProfile']);
-            Route::post('logout', [UserApiController::class, 'updateUserProfile']);
+            Route::post('logout', [UserApiController::class, 'logout']);
+
             Route::get('/preference', [UserApiController::class, 'getUserSettings']);
             Route::patch('/preference', [UserApiController::class, 'updateUserPreference']);
         });
