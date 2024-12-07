@@ -81,9 +81,9 @@ class UserApiController extends Controller
             //Update user preferences
             $this->userService->updateUserPreferenceService(
                 $this->user,
-                $validated["category_ids"],
-                $validated["author_ids"],
-                $validated["source_ids"]
+                $validated["category_ids"]?? [],
+                $validated["author_ids"] ?? [],
+                $validated["source_ids"] ?? []
             );
             //Get updated user preferences
             $userPreferences = $this->userService->getUserPreferenceService($this->user);

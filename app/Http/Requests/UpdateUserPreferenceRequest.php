@@ -25,13 +25,13 @@ class UpdateUserPreferenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "category_ids" => "required|array",
+            "category_ids" => "nullable|array",
             "category_ids.*" => "required|integer|exists:categories,id",
 
-            "author_ids" => "required|array",
+            "author_ids" => "nullable|array",
             "author_ids.*" => "required|integer|exists:authors,id",
 
-            "source_ids" => "required|array",
+            "source_ids" => "nullable|array",
             "source_ids.*" => "required|integer|exists:sources,id",
         ];
     }
