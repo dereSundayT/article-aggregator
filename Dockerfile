@@ -39,4 +39,4 @@ EXPOSE 8000
 # Command to run Laravel's development server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
-CMD ["sh", "-c", "wait-for-it mysql-db:3306 -- php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"]/
+#CMD ["sh", "-c", "wait-for-it mysql-db:3306 -- php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"]
