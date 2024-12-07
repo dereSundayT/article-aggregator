@@ -26,7 +26,7 @@ RUN chown -R www-data:www-data /var/www
 
 RUN php artisan key:generate
 
-RUN make dev
+RUN make setup
 
 # Expose port
 EXPOSE 8000
