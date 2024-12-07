@@ -14,12 +14,16 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 # Copy app files
 COPY . .
+RUN cp .env.example .env
 
 # Install Laravel dependencies
 RUN composer install --no-interaction --prefer-dist
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www
+
+
+RUN php artisan key:generate
 
 # Expose port
 EXPOSE 8000
