@@ -1,6 +1,7 @@
 <?php
 
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -52,4 +53,10 @@ function getRequest(string $url, string $token): array
             'message' => $th->getMessage()
         ];
     }
+}
+
+
+function returnDate($date_)
+{
+   return !empty($date_) ? date('Y-m-d', strtotime($date_)) : Carbon::now()->format('Y-m-d');
 }

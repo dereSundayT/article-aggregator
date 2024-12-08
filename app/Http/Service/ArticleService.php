@@ -4,6 +4,7 @@ namespace App\Http\Service;
 
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Throwable;
@@ -66,6 +67,8 @@ class ArticleService
     public function getArticleService($keyword, $start_date, $end_date, $category_ids, $source_ids, $author_ids): ?LengthAwarePaginator
     {
         try {
+            $start_date = returnDate($start_date);
+            $end_date = returnDate($end_date);
             return Article::with([
                 'source:id,name',
                 'category:id,name',
