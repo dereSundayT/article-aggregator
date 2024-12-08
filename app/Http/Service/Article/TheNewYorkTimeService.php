@@ -32,11 +32,11 @@ class TheNewYorkTimeService implements IArticleSource
             foreach ($articles as $article) {
                 $keywords = !empty($article['des_facet']) ? implode(', ', $article['des_facet']) : '';
                 $image = !empty($article['multimedia']) ? $article['multimedia'][0]['url'] : "https://picsum.photos/1000/1000?random=" . mt_rand();
-                $title = $article['title'];
+                $title = $article['headline']['main'];
                 $content = $article['abstract'];
                 if(!empty($title) && !empty($content)){
                     $cleanedData[] = [
-                        'title' => $article['title'],
+                        'title' => $title,
                         'category_id' => $category_id,
                         'source_id' => $this->source_id,
                         'author_id' => random_int(1, 5),
@@ -69,13 +69,12 @@ class TheNewYorkTimeService implements IArticleSource
 
             $token = config('app.the_new_york_time_api_token');
             $url = config('app.the_new_york_time_api_url') ."/{$category}.json?api-key=$token";
+
             $resp = getRequest($url, "");
             if($resp['status'] === "success"){
                 Log::warning("TheNewYorkTimeService: fetchArticles: $category",[
-                    'data' => count($resp['data']['results']),
-                    "url"=>$url,
-                ]);
-                return $this->formatArticleData($resp['data']['results'],$category_id);
+                    'data' => count($resp['data']['results']),]);
+                return $this->formatArticleData($resp['data']['response']['docs'],$category_id);
             }
 
             return [];

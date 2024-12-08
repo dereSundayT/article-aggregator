@@ -25,10 +25,9 @@ class FetchArticlesFromSourcesCommand extends Command
         try{
             $articleService = new ArticleService();
             $articleSources = [
-//                new TheNewYorkTimeService(),
-//                new TheGuardianService(),
+                new TheNewYorkTimeService(),
+                new TheGuardianService(),
                 new TheNewsApiService(),
-
             ];
 
             foreach ($articleSources as $articleSource) {

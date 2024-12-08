@@ -62,7 +62,6 @@ class TheGuardianService implements IArticleSource
     public function fetchArticles(string $category, int $category_id): array
     {
         try{
-
             $token = config('app.guardian_api_token');
             $baseUrl = config('app.guardian_api_url');
             $url = "$baseUrl?api-key=$token&show-fields=all&section=$category";

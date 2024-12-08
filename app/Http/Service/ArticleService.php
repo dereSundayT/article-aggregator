@@ -77,10 +77,10 @@ class ArticleService
 //                        ->orWhere('content', 'like', "%$keyword%");
                 })
                 ->when(!empty($start_date), function ($query) use ($start_date) {
-                    $query->whereDate('published_at', '>=', $start_date);
+                    $query->whereDate('created_at', '>=', $start_date);
                 })
                 ->when(!empty($end_date), function ($query) use ($end_date) {
-                    $query->whereDate('published_at', '<=', $end_date);
+                    $query->whereDate('created_at', '<=', $end_date);
                 })
                 ->when(!empty($source_ids), function ($query) use ($source_ids) {
                     $query->whereIn('source_id', $source_ids);
@@ -91,7 +91,7 @@ class ArticleService
                 ->when(!empty($author_ids), function ($query) use ($author_ids) {
                     $query->whereIn('author_id', $author_ids);
                 })
-                ->orderBy('published_at', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
 

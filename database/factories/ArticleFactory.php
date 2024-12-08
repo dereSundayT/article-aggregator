@@ -26,7 +26,7 @@ class ArticleFactory extends Factory
             'content' => $this->faker->text,
             'keywords' => $this->faker->words(5, true),
             'image_url' => $this->faker->imageUrl,
-            'published_at' => $this->faker->dateTimeBetween('October 1st this year', 'now'),
+            'published_at' => $this->faker->dateTimeBetween('this year', 'now'),
             'source_id' => Source::inRandomOrder()->value('id'),
             'category_id' => Category::inRandomOrder()->value('id'),
             'author_id' => Author::inRandomOrder()->value('id'),
