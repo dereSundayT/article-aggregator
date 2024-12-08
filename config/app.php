@@ -70,6 +70,9 @@ return [
     'news_api_token' => env('NEWS_API_KEY', ''),
     'news_api_url' => env('NEWS_API_URL', ''),
 
+    'guardian_api_token' => env('GUARDIAN_API_KEY', ''),
+    'guardian_api_url' => env('GUARDIAN_API_URL', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

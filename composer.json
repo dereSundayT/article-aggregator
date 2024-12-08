@@ -41,8 +41,10 @@
     "scripts": {
         "setup": [
             "@php artisan migrate:refresh --seed",
-            "@php artisan optimize:clear",
-            "@composer dump-autoload"
+            "@composer dump-autoload",
+            "@php artisan config:clear",
+            "@php artisan cache:clear",
+            "@php artisan config:cache"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
