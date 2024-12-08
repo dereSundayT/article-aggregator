@@ -92,11 +92,12 @@ class ArticleApiController extends Controller
 
     public function test()
     {
-        $r = new ArticleSourceService([
-//            new TheGuardianService(),
-            new TheNewsApiService(),
+        //            new TheNewsApiService(),
 //            new TheNewYorkTimeService()
-        ]);
+            $r = new ArticleSourceService([
+                new TheGuardianService(),
+
+            ]);
         $r->fetchAndSaveArticles();
         return "done";
     }

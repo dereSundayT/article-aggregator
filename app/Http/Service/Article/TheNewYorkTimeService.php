@@ -8,6 +8,7 @@ use Throwable;
 class TheNewYorkTimeService implements IArticleSource
 {
 
+    protected int $source_id = 3;
 
     public function formatArticleData($articles): array
     {
@@ -17,7 +18,7 @@ class TheNewYorkTimeService implements IArticleSource
                 $cleanedData[] = [
                     'title' => $article['title'],
                     'category_id' => $article['category_id'],
-                    'source_id' => $article['source_id'],
+                    'source_id' => $this->source_id,
                     'author_id' => $article['author_id'],
                     'content' => $article['content'],
                     'description' => $article['description'],

@@ -21,12 +21,12 @@ class SourceSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'OpenNews',
+                'name' => 'The Guardian',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'NewsCred:',
+                'name' => 'New York Times',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

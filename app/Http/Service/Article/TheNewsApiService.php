@@ -11,7 +11,7 @@ use Throwable;
 class TheNewsApiService implements IArticleSource
 {
 
-
+    protected int $source_id = 1;
 
     public function formatArticleData($articles): array
     {
@@ -25,7 +25,7 @@ class TheNewsApiService implements IArticleSource
                     $cleanedData[] = [
                         'title' => $article['title'],
                         'category_id' => 1,
-                        'source_id' => 1,
+                        'source_id' => $this->source_id,
                         'author_id' =>1,
                         'content' => $content,
                         'description' => $article['description'],
