@@ -28,11 +28,6 @@ function getRequest(string $url, string $token): array
         )
             ->get($url);
 
-        Log::warning("Req Fetching articles...", [
-            'response' => $response,
-            "token" => $token,
-            "url" => $url,
-        ]);
         if ($response->successful()) {
             return [
                 'status' => "success",

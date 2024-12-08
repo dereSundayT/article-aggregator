@@ -4,16 +4,27 @@ namespace App\Http\Service\Article;
 
 use App\Interfaces\IArticleSource;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class TheNewsApiService implements IArticleSource
 {
-
+    protected array $categories = [
+        "technology",
+        "science",
+        "business",
+        "health",
+        "sports"
+    ];
     protected int $source_id = 1;
 
-    public function formatArticleData($articles): array
+
+    /**
+     * @param $articles
+     * @param $category_id
+     * @return array
+     */
+    public function formatArticleData($articles,$category_id): array
     {
         try{
             $cleanedData = [];
@@ -24,9 +35,9 @@ class TheNewsApiService implements IArticleSource
                 if($content !== null && $title!=='[Removed]'){
                     $cleanedData[] = [
                         'title' => $article['title'],
-                        'category_id' => 1,
+                        'category_id' => $category_id,
                         'source_id' => $this->source_id,
-                        'author_id' =>1,
+                        'author_id' =>random_int(1,5),
                         'content' => $content,
                         'description' => $article['description'],
                         'keywords' => $article['keywords'] ?? null,
@@ -43,32 +54,40 @@ class TheNewsApiService implements IArticleSource
         }
     }
 
-    public function fetchArticles(): array
+
+    /**
+     * @param string $category
+     * @param int $category_id
+     * @return array
+     */
+    public function fetchArticles(string $category,int $category_id): array
     {
         try{
-
             $token = config('app.news_api_token');
             $baseUrl = config('app.news_api_url');
-            $fromDate = '2024-12-01';
-            $toDate = '2024-12-02';
 
-            $url = "$baseUrl?country=us&category=sports&from=$fromDate&to=$toDate&sortBy=popularity&apiKey=$token";
+            $url = "$baseUrl?country=us&category=$category&sortBy=popularity&apiKey=$token";
             $resp = getRequest($url, "");
-            Log::warning("Fetching articles from TheNewsApiService...",[
-                'response' => $resp,
-                "token" => $token,
-                "url" => $url,
-                "baseUrl" => $baseUrl
-            ]);
+
             if($resp['status'] === "success"){
-                return $this->formatArticleData($resp['data']['articles']);
+                $articles = $resp['data']['articles'];
+                $formatedArticles =$this->formatArticleData($articles, $category_id);
+                Log::warning("TheNewsApi Service: fetchArticles: $category",['total' => count($articles)]);
+                return $formatedArticles;
             }
             return [];
         }
         catch (Throwable $throwable){
-            storeErrorLog($throwable, "TheGuardianService Error: fetchArticles");
+            storeErrorLog($throwable, "TheNewsApi Service Error: fetchArticles");
             return [];
         }
     }
 
+
+
+
+    public function getCategories(): array
+    {
+      return $this->categories;
+    }
 }

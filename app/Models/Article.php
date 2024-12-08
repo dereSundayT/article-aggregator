@@ -36,4 +36,9 @@ class Article extends Model
     {
         return $this->belongsTo(Author::class);
     }
+
+    public function getPublishedAtAttribute($value): string
+    {
+        return date('M d, Y', strtotime($value));
+    }
 }

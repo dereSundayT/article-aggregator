@@ -101,4 +101,30 @@ class ArticleService
         }
     }
 
+
+    public function saveArticlesService($article): void{
+        try{
+            Article::updateOrCreate(
+                [
+                    'title' => $article['title'],
+                    'category_id' => $article['category_id'],
+                    'source_id' => $article['source_id'],
+                    'author_id' => $article['author_id'],
+                    'published_at' => $article['published_at']
+                ],
+                [
+                    'content' => $article['content'],
+                    'description' => $article['description'],
+                    'keywords' => $article['keywords'],
+                    'image_url' => $article['image_url'],
+                ]
+            );
+        }catch (Throwable $throwable){
+            storeErrorLog($throwable, "ArticleSourceService Error: saveArticles");
+        }
+
+    }
+
+
+
 }

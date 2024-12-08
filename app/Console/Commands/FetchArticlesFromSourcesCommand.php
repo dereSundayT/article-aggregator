@@ -2,55 +2,46 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Service\Article\ArticleSourceService;
+
 use App\Http\Service\Article\TheGuardianService;
 use App\Http\Service\Article\TheNewsApiService;
 use App\Http\Service\Article\TheNewYorkTimeService;
+use App\Http\Service\ArticleService;
+use App\Jobs\FetchAndStoreArticlesJob;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class FetchArticlesFromSourcesCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+
     protected $signature = 'app:fetch-articles';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    protected ArticleSourceService $articleSourceService;
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $sources = [
-            new TheGuardianService(),
-            new TheNewsApiService(),
-            new TheNewYorkTimeService()
-        ];
-
-        $this->articleSourceService = new ArticleSourceService($sources);
-    }
-
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
-        Log::warning("Fetching articles...");
-        $this->info('Fetching articles...');
+        $this->info('Start: Fetching and Storing  articles...');
         try{
-            $this->articleSourceService->fetchAndSaveArticles();
-            $this->info('Articles fetched and saved successfully.');
+            $articleService = new ArticleService();
+            $articleSources = [
+//                new TheNewYorkTimeService(),
+//                new TheGuardianService(),
+                new TheNewsApiService(),
+
+            ];
+
+            foreach ($articleSources as $articleSource) {
+                foreach ($articleSource->getCategories()  as $index => $categories) {
+                    $category_id = $index + 1;
+                    FetchAndStoreArticlesJob::dispatch(
+                        $articleService,
+                        $articleSource,
+                        $categories,
+                        $category_id);
+                }
+            }
+            $this->info('Jobs dispatched for fetch and store articles from different sources.');
         }catch (Throwable $throwable){
             storeErrorLog($throwable, "Command Error: FetchArticlesFromSourcesCommand");
         }
