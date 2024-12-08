@@ -19,7 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command('app:fetch-articles')
             ->withoutOverlapping()
-            ->dailyAt("07:00");
+            ->everyMinute();
+//            ->dailyAt("07:00");
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
