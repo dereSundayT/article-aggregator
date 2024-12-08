@@ -73,6 +73,9 @@ return [
     'guardian_api_token' => env('THE_GUARDIAN_API_KEY', ''),
     'guardian_api_url' => env('THE_GUARDIAN_API_URL', ''),
 
+    'the_new_york_time_api_token' => env('THE_NEW_YORK_TIMES_API_KEY', ''),
+    'the_new_york_time_api_url' => env('THE_NEW_YORK_TIMES_API_URL', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

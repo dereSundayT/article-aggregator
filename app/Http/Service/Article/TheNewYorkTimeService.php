@@ -9,39 +9,54 @@ class TheNewYorkTimeService implements IArticleSource
 {
 
     protected int $source_id = 3;
+    protected int $author_id =2;
+    protected int $category_id = 1;
 
     public function formatArticleData($articles): array
     {
         try{
             $cleanedData = [];
             foreach ($articles as $article) {
+                $keywords = !empty($article['des_facet']) ? implode(', ', $article['des_facet']) : '';
+                $image = !empty($article['multimedia']) ? $article['multimedia'][0]['url'] : "https://picsum.photos/1000/1000?random=" . mt_rand();
+
                 $cleanedData[] = [
                     'title' => $article['title'],
-                    'category_id' => $article['category_id'],
+                    'category_id' => $this->category_id,
                     'source_id' => $this->source_id,
-                    'author_id' => $article['author_id'],
-                    'content' => $article['content'],
-                    'description' => $article['description'],
-                    'keywords' => $article['keywords'],
-                    'image_url' => $article['image_url'],
-                    'published_at' => $article['published_at'],
+                    'author_id' => $this->author_id,
+                    'content' => $article['abstract'],
+                    'description' => $article['abstract'],
+                    'keywords' =>$keywords,
+                    'image_url' => $image,
+                    'published_at' => $article['published_date'],
                 ];
             }
             return $cleanedData;
         }
         catch (Throwable $throwable){
-            storeErrorLog($throwable, "TheGuardianService Error: fetchArticles");
+            storeErrorLog($throwable, "TheNewYorkTimes Error: fetchArticles");
             return [];
         }
     }
 
+
     public function fetchArticles(): array
     {
         try{
+
+            $category = "technology";
+            $token = config('app.the_new_york_time_api_token');
+            $baseUrl = config('app.the_new_york_time_api_url') ."/{$category}.json";
+            $url = "$baseUrl?api-key=$token";
+            $resp = getRequest($url, "");
+            if($resp['status'] === "success"){
+                return $this->formatArticleData($resp['data']['results']);
+            }
             return [];
         }
         catch (Throwable $throwable){
-            storeErrorLog($throwable, "TheGuardianService Error: fetchArticles");
+            storeErrorLog($throwable, "TheNewYorkTimes Error: fetchArticles");
             return [];
         }
     }
