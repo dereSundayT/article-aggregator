@@ -30,6 +30,7 @@ class FetchArticlesFromSourcesCommand extends Command
                 new TheNewsApiService(),
             ];
 
+
             foreach ($articleSources as $articleSource) {
                 foreach ($articleSource->getCategories()  as $index => $categories) {
                     $category_id = $index + 1;
@@ -37,7 +38,8 @@ class FetchArticlesFromSourcesCommand extends Command
                         $articleService,
                         $articleSource,
                         $categories,
-                        $category_id);
+                        $category_id)
+                        ->delay(now()->addMinutes(5));
                 }
             }
             $this->info('Jobs dispatched for fetch and store articles from different sources.');

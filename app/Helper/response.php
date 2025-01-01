@@ -26,7 +26,7 @@ function successResponse(string $message, mixed $data, int $statusCode = 200): J
  * @param int $statusCode
  * @return JsonResponse
  */
-function errorResponse(string $message, mixed $data, int $statusCode = 400): JsonResponse
+function errorResponse(string $message, int $statusCode = 400, mixed $data=null): JsonResponse
 {
     return response()->json([
         'status' => false,

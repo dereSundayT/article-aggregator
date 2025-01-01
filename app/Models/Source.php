@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Source extends Model
 {
+    protected $fillable = [
+        'name','api_key','api_url'
+    ];
     //
     public function users(): BelongsToMany
     {

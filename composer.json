@@ -11,7 +11,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "opcodesio/log-viewer": "^3.12",
-        "predis/predis": "^2.3"
+        "predis/predis": "^2.3",
+        "ext-http": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
