@@ -30,7 +30,7 @@ class UserApiController extends Controller
             return successResponse('User details retrieved successfully', $this->user);
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'User Retrieval Failed: ');
-            return errorResponse('Something went wrong', null, 500);
+            return errorResponse('Something went wrong', 500);
         }
     }
 
@@ -48,7 +48,7 @@ class UserApiController extends Controller
             return successResponse('User details updated successfully', $user);
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'UserController: User Update Failed: ');
-            return errorResponse('Something went wrong', null, 500);
+            return errorResponse('Something went wrong', 500);
         }
     }
 
@@ -59,7 +59,7 @@ class UserApiController extends Controller
             return successResponse('User logged out successfully',null);
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'UserController: User Logout Failed: ');
-            return errorResponse('Something went wrong', null, 500);
+            return errorResponse('Something went wrong', 500);
         }
     }
 
@@ -74,7 +74,7 @@ class UserApiController extends Controller
             return successResponse('User settings retrieved successfully', $userPreferences);
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'User Preference Store Failed: ');
-            return errorResponse('Something went wrong', null, 500);
+            return errorResponse('Something went wrong', 500);
         }
     }
 
@@ -101,7 +101,7 @@ class UserApiController extends Controller
             return successResponse('User settings updated successfully', $userPreferences);
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'User Preference Update Failed: ');
-            return errorResponse('Something went wrong', null, 500);
+            return errorResponse('Something went wrong', 500);
         }
     }
 

@@ -10,6 +10,7 @@ use App\Models\Article;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Throwable;
 
@@ -35,9 +36,9 @@ class ArticleApiController extends Controller
             // unique cache key using the request parameters
             $cacheKey = 'articles_' . md5(json_encode($validated, JSON_THROW_ON_ERROR));
 
-            //3600 seconds = 1-hour
+
             // Check if the articles are already cached, the cache will be stored for 1 hour
-            $articles = cache()->remember($cacheKey, 3600, function () use ($validated) {
+           $articles = Cache::remember($cacheKey,3600,function () use($validated){
                 $articles = $this->articleService->getArticleService(
                     $validated['keywords'] ?? null,
                     $validated['start_date'] ?? null,
@@ -49,7 +50,6 @@ class ArticleApiController extends Controller
                 // cache articles if they are not empty
                 return $articles ?? null;
             });
-
             return successResponse("Articles fetched successfully", $articles);
         } catch (Throwable $th) {
             storeErrorLog($th, 'ArticleApiController Exception:');
@@ -67,7 +67,11 @@ class ArticleApiController extends Controller
     {
         try {
             $article = $this->articleService->getArticleDetailService($article_id);
-            return successResponse("Article fetched successfully", $article);
+            if($article){
+                return successResponse("Article fetched successfully", $article);
+            }
+            return errorResponse("No article with this ID: $article_id",404);
+
         } catch (Throwable $th) {
             storeErrorLog($th, 'ArticleApiController Exception:');
             return errorResponse("An error occurred while fetching article", 500);

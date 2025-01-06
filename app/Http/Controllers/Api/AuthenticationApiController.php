@@ -28,18 +28,15 @@ class AuthenticationApiController extends Controller
     {
         try {
             $user = $this->authenticationService->userRegistrationService($request->name, $request->email, $request->password);
-            Log::error("Error",[
-                'user' => $user
-            ]);
             if ($user) {
                 return successResponse('User created successfully', null, 201);
             }
 
-            return errorResponse('User registration failed', null);
+            return errorResponse('User registration failed');
 
         } catch (Throwable $th) {
             storeErrorLog($th, 'User Registration Failed: ');
-            return errorResponse('Something went wrong', null, 500);
+            return errorResponse('Something went wrong', 500);
         }
     }
 
@@ -59,11 +56,11 @@ class AuthenticationApiController extends Controller
                 return successResponse('Login successful', $userLoginDetails);
             }
 
-            return errorResponse('Invalid credentials', null);
+            return errorResponse('Invalid credentials');
 
         } catch (Throwable $th) {
             storeErrorLog($th, 'User Login Failed');
-            return errorResponse('Something went wrong', null, 500);
+            return errorResponse('Something went wrong', 500);
         }
     }
 

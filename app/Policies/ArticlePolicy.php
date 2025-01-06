@@ -14,9 +14,10 @@ class ArticlePolicy
      */
     public function viewAny(User $user): Response
     {
-      return  $user->is_active ?
-            Response::allow() :
-        Response::deny("Access denied");
+        return Response::allow();
+//      return  $user->is_active ?
+//            Response::allow() :
+//        Response::deny("Access denied");
     }
 
     /**

@@ -36,9 +36,7 @@ class UserService
     public function updateUserProfileService(Authenticatable $user,string $name): ?Authenticatable
     {
         try {
-            $user->update([
-                'name' => $name
-            ]);
+            $user->update(['name' => $name]);
             return $user->refresh();
         } catch (Throwable $throwable) {
             storeErrorLog($throwable, 'User Service: User Retrieval Failed:');

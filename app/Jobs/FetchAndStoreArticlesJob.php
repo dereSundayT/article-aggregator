@@ -30,7 +30,6 @@ class FetchAndStoreArticlesJob implements ShouldQueue
      */
     public function handle(): void
     {
-
        $articles=  $this->iArticleSource->fetchArticles($this->category,$this->category_id);
        if (!empty($articles)) {
            foreach ($articles as $article){

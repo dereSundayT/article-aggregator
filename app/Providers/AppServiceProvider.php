@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        Gate::define('check', static function (User $user, Article $article) {
-//            return $user->id === $article->user_id;
-//        });
+        Gate::define('check', static function (User $user, Article $article) {
+            return $user->id === $article->user_id;
+        });
     }
 }

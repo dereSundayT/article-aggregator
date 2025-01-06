@@ -22,11 +22,10 @@ Route::prefix('v1')->group(static function () {
             Route::get('', [UserApiController::class, 'getUser']);
             Route::patch('', [UserApiController::class, 'updateUserProfile']);
             Route::post('logout', [UserApiController::class, 'logout']);
-
+            //Preferences
             Route::get('/preference', [UserApiController::class, 'getUserSettings']);
             Route::patch('/preference', [UserApiController::class, 'updateUserPreference']);
         });
-
         //::: Article routes
         Route::group(['prefix' => 'articles'], static function () {
             Route::get('', [ArticleApiController::class, 'getArticles']);
