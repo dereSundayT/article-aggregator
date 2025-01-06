@@ -15,7 +15,9 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install zip pdo pdo_mysql gd mbstring opcache
+    && docker-php-ext-install zip pdo pdo_mysql gd mbstring opcache pcntl
+
+
 
 
 # Install Composer
